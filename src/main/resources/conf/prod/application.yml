@@ -1,0 +1,21 @@
+es:
+  cluster: elasticsearch
+  hosts:
+    - 192.168.1.13:9300
+  alias: elasticsearch
+  shards: 5
+  replicas: 0
+# SPRING PROFILES
+spring:
+  # HTTP ENCODING
+  http:
+    encoding.charset: UTF-8
+    encoding.enable: true
+    encoding.force: true
+  data:
+    mongodb:
+      uri: mongodb://192.168.1.10:27017
+      database: products
+multipart:
+  maxFileSize: 10000Mb
+  maxRequestSize: 20000Mb

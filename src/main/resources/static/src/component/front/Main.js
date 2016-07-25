@@ -15,7 +15,7 @@ const columns = [
     title: '商品名',
     dataIndex: 'name',
     render(text) {
-      return <a href="#">{text}</a>;
+      return <a href="javascript:void(0);">{text}</a>;
     }
   }, {
     key: 'barCode',
@@ -64,7 +64,6 @@ let Main = React.createClass({
       pagination: {
         total: nextProps.products.totalElements,
         current: currentPage,
-        showSizeChanger: true,
         onShowSizeChange: (current, pageSize) => {
           const params = {
             pageSize,

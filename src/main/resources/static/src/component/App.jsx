@@ -27,7 +27,7 @@ const App = React.createClass({
             </div>
             <div className="ant-layout-container">
               <div className="ant-layout-content">
-                <div style={{ height: 590 }}>
+                <div style={{ height: 620 }}>
                   {this.props.children || <Main/>}
                 </div>
               </div>

@@ -1,5 +1,5 @@
 {
-  "name": "react-antd-redux-router-starter-demo",
+  "name": "products",
   "version": "1.0.0",
   "description": "This project is designed to help those who use antd to develop a website(or web app). Maybe also need to use redux, router and so on.",
   "author": "yuzhouisme",
@@ -57,7 +57,7 @@
   "scripts": {
     "dev": "dora -p 8001 --plugins atool-build,proxy,hmr",
     "lint": "eslint --ext .js,.jsx src",
-    "build": "atool-build -o ./dist/${npm_package_family}/${npm_package_name}/${npm_package_version}"
+    "build": "atool-build -o ./dist"
   },
   "babel": {
     "presets": [
