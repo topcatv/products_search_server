@@ -39,7 +39,7 @@ const enhancer = compose(
     thunkMiddleware,
     loggerMiddleware
   ),
-  DevTools.instrument(),
+  window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument(),
   persistState(
     window.location.href.match(
       /[?&]debug_session=([^&]+)\b/
