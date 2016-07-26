@@ -2,8 +2,8 @@ import history from './history';
 import fetch from 'isomorphic-fetch';
 import qs from 'qs';
 
-const BASE_URL = ''; // for prod
-//const BASE_URL = '/api/'; // for dev
+// const BASE_URL = ''; // for prod
+const BASE_URL = '/p1/'; // for dev
 
 const utils = {
   goto_page: (path = '/', context = 'admin') => {

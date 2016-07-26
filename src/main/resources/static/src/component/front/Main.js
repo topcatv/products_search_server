@@ -52,7 +52,8 @@ let Main = React.createClass({
   getInitialState() {
     return {
       pagination: {
-      }
+      },
+      loading: false
     };
   },
   componentWillReceiveProps(nextProps) {
@@ -78,29 +79,14 @@ let Main = React.createClass({
           };
           this.props.search(Object.assign({}, this.props.form.getFieldsValue(), params));
         }
-      }
+      },
+      loading: nextProps.products.loading
     });
   },
   handleSubmit(e) {
     e.preventDefault();
     this.props.search(this.props.form.getFieldsValue());
-  },
-  handleTableChange(pagination, filters, sorter) {
-    const pager = this.state.pagination;
-    pager.current = pagination.current || 1;
-    this.setState({pagination: pager});
-    const params = {
-      pageSize: pagination.pageSize,
-      pageNo: pagination.current,
-      sortField: sorter.field,
-      sortOrder: sorter.order
-    };
-    for (const key in filters) {
-      if ({}.hasOwnProperty.call(filters, key)) {
-        params[key] = filters[key];
-      }
-    }
-    this.props.search(Object.assign({}, this.props.form.getFieldsValue(), params));
+    this.setState(Object.assign({}, this.state, {loading: true}));
   },
   render() {
     const {getFieldProps} = this.props.form;
@@ -123,7 +109,7 @@ let Main = React.createClass({
             rowKey={record => record.id}
             dataSource={this.props.products.content}
             pagination={this.state.pagination}
-            onChange={this.handleTableChange}
+            loading={this.state.loading}
           />
         </Row>
       </QueueAnim>

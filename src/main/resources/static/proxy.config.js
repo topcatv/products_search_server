@@ -1,3 +1,3 @@
 module.exports = {
-  '/api/*': 'http://localhost:8080/',
+  '/p1/*': 'http://p1.haigo8.com/',
 };

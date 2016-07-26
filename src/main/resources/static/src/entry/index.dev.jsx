@@ -28,7 +28,6 @@ const DevTools = createDevTools(
 );
 // top entry
 import App from '../component/App';
-import Admin from '../component/Admin';
 
 // Sync dispatched route actions to the history
 const reduxRouterMiddleware = syncHistory(browserHistory);
@@ -59,10 +58,6 @@ const routes = {
   path: '/',
   component: App,
   childRoutes: [
-    {
-      path: 'admin',
-      component: Admin
-    },
     {
       path: '*',
       component: App
