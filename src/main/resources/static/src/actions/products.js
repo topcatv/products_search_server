@@ -7,24 +7,25 @@ export const REQUEST_SEARCH_COMPLETE = 'REQUEST_SEARCH_COMPLETE';
 function requestSearch() {
   return {
     type: REQUEST_SEARCH,
-    products: {loading: true}
+    isFetching: true
   };
 }
 
-function completeSearch(state, products) {
+function completeSearch(products) {
   return {
     type: REQUEST_SEARCH_COMPLETE,
-    products: Object.assign({}, state, products, {loading: false})
+    isFetching: false,
+    products
   };
 }
 
 export function search(queryParams) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(requestSearch());
     return utils.get(API.SEARCH_URL, queryParams)
     .then((req) => req.json())
     .then((json) => {
-      dispatch(completeSearch(getState().products, Object.assign({}, json, {params: queryParams})));
+      dispatch(completeSearch(Object.assign({}, json, {params: queryParams})));
     });
   };
 }

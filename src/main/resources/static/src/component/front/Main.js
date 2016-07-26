@@ -88,6 +88,9 @@ let Main = React.createClass({
     this.props.search(this.props.form.getFieldsValue());
     this.setState(Object.assign({}, this.state, {loading: true}));
   },
+  _rowKey(recode) {
+    return recode.id;
+  },
   render() {
     const {getFieldProps} = this.props.form;
     return (
@@ -106,7 +109,7 @@ let Main = React.createClass({
         <br/>
         <Row key="2">
           <Table columns={columns}
-            rowKey={record => record.id}
+            rowKey={this._rowKey}
             dataSource={this.props.products.content}
             pagination={this.state.pagination}
             loading={this.state.loading}
