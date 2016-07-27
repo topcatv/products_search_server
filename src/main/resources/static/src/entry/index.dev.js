@@ -9,30 +9,25 @@ import DockMonitor from 'redux-devtools-dock-monitor';
 import React from 'react';
 import { render } from 'react-dom';
 // router
-import { Router, hashHistory, browserHistory } from 'react-router';
+import { Router, browserHistory } from 'react-router';
 // redux
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 const loggerMiddleware = createLogger();
 
 import { Provider } from 'react-redux';
-import { syncHistory } from 'react-router-redux';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 // reducers
-import reducer from '../reducers';
+import * as reducers from '../reducers';
 
 const DevTools = createDevTools(
-  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
+  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q" changeMonitorKey="ctrl-m">
     <LogMonitor theme="tomorrow" preserveScrollTop={false} />
   </DockMonitor>
 );
 // top entry
 import App from '../component/App';
-
-// Sync dispatched route actions to the history
-const reduxRouterMiddleware = syncHistory(browserHistory);
-const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware)(createStore);
-
 
 const enhancer = compose(
   applyMiddleware(
@@ -48,11 +43,14 @@ const enhancer = compose(
 );
 
 const store = createStore(
-  reducer,
+  combineReducers({
+    ...reducers,
+    routing: routerReducer
+  }),
   enhancer
 );
-// Required for replaying actions from devtools to work
-reduxRouterMiddleware.listenForReplays(store);
+
+const history = syncHistoryWithStore(browserHistory, store);
 
 const routes = {
   path: '/',
@@ -68,8 +66,8 @@ const routes = {
 render(
   <Provider store={store}>
     <div>
-      <Router history={hashHistory} routes={routes} />
-      <DevTools />
+      <Router history={history} routes={routes} />
+      { !window.devToolsExtension ? <DevTools /> : null }
     </div>
   </Provider>
   , document.getElementById('react-content')

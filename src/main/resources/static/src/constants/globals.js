@@ -1,5 +1,5 @@
 module.exports = {
   API: {
-    SEARCH_URL: 'products',
+    SEARCH_URL: 'products'
   }
 };

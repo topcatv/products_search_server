@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  QueueAnim,
-  Row,
-  Table,
-  Form,
-  Input,
-  Button
-} from 'antd';
-const FormItem = Form.Item;
+import { Row, Table, Form, Input, Button } from 'antd'
+import QueueAnim from 'rc-queue-anim'
+const FormItem = Form.Item
 
 const columns = [
   {
@@ -46,15 +40,11 @@ const columns = [
     title: '供货价',
     dataIndex: 'price'
   }
-];
+]
 
 let Main = React.createClass({
   getInitialState() {
-    return {
-      pagination: {
-      },
-      loading: false
-    };
+    return { pagination: {}, loading: false };
   },
   componentWillReceiveProps(nextProps) {
     let currentPage = 1;
@@ -86,13 +76,13 @@ let Main = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
     this.props.search(this.props.form.getFieldsValue());
-    this.setState(Object.assign({}, this.state, {loading: true}));
+    this.setState(Object.assign({}, this.state, { loading: true }));
   },
   _rowKey(recode) {
     return recode.id;
   },
   render() {
-    const {getFieldProps} = this.props.form;
+    const { getFieldProps } = this.props.form;
     return (
       <QueueAnim delay={500} type={['right', 'left']} ease={['easeOutQuart', 'easeInOutQuart']}>
         <Row key="1">
@@ -111,8 +101,7 @@ let Main = React.createClass({
           <Table columns={columns}
             rowKey={this._rowKey}
             dataSource={this.props.products.content}
-            pagination={this.state.pagination}
-            loading={this.state.loading}
+            pagination={this.state.pagination}loading={this.state.loading}
           />
         </Row>
       </QueueAnim>
