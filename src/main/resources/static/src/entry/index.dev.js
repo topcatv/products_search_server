@@ -9,7 +9,7 @@ import DockMonitor from 'redux-devtools-dock-monitor';
 import React from 'react';
 import { render } from 'react-dom';
 // router
-import { Router, browserHistory } from 'react-router';
+import { Router, Route, hashHistory } from 'react-router';
 // redux
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -28,6 +28,8 @@ const DevTools = createDevTools(
 );
 // top entry
 import App from '../component/App';
+import Main from '../container/Main';
+import Index from '../component/Index';
 
 const enhancer = compose(
   applyMiddleware(
@@ -50,23 +52,17 @@ const store = createStore(
   enhancer
 );
 
-const history = syncHistoryWithStore(browserHistory, store);
-
-const routes = {
-  path: '/',
-  component: App,
-  childRoutes: [
-    {
-      path: '*',
-      component: App
-    }
-  ]
-};
+const history = syncHistoryWithStore(hashHistory, store);
 
 render(
   <Provider store={store}>
     <div>
-      <Router history={history} routes={routes} />
+      <Router history={history}>
+        <Route path="/" component={Index} />
+        <Route path="/admin" component={App}>
+          <Route path="index" component={Main} />
+        </Route>
+      </Router>
       { !window.devToolsExtension ? <DevTools /> : null }
     </div>
   </Provider>

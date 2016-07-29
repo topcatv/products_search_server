@@ -88,15 +88,15 @@ let Main = React.createClass({
         <Row key="1">
           <Form inline onSubmit={this.handleSubmit}>
             <FormItem label="商品名：">
-              <Input placeholder="请输入商品名" {...getFieldProps('name')}/>
+              <Input placeholder="请输入商品名" {...getFieldProps('name')} />
             </FormItem>
             <FormItem label="商品条码：">
-              <Input placeholder="请输入商品条码" {...getFieldProps('barCode')}/>
+              <Input placeholder="请输入商品条码" {...getFieldProps('barCode')} />
             </FormItem>
             <Button type="primary" htmlType="submit">查询</Button>
           </Form>
         </Row>
-        <br/>
+        <br />
         <Row key="2">
           <Table columns={columns}
             rowKey={this._rowKey}
@@ -110,4 +110,4 @@ let Main = React.createClass({
 });
 Main = Form.create()(Main);
 
-module.exports = Main;
+export default Main;

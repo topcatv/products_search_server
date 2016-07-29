@@ -12,7 +12,7 @@ const App = React.createClass({
           <aside className="ant-layout-sider">
             <div className="ant-layout-logo"></div>
             <Menu mode="inline" theme="dark" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
-              <SubMenu key="sub1" title={< span > <Icon type="user"/>功能 < /span>}>
+              <SubMenu key="sub1" title={< span > <Icon type="user" />功能 </span>}>
                 <Menu.Item key="1">产品查询</Menu.Item>
               </SubMenu>
             </Menu>
@@ -28,7 +28,7 @@ const App = React.createClass({
             <div className="ant-layout-container">
               <div className="ant-layout-content">
                 <div style={{ height: 620 }}>
-                  {this.props.children || <Main/>}
+                  {this.props.children || <Main />}
                 </div>
               </div>
             </div>
@@ -39,7 +39,7 @@ const App = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 });
 
 export default App;

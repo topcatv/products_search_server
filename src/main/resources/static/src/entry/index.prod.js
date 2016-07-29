@@ -5,7 +5,7 @@ import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 // router
-import { Router, browserHistory } from 'react-router';
+import { Router, Route, browserHistory } from 'react-router';
 // redux
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -19,6 +19,9 @@ import * as reducers from '../reducers';
 
 // top entry
 import App from '../component/App';
+import Index from '../component/Index';
+
+import Main from '../container/Main';
 
 const enhancer = compose(
   applyMiddleware(
@@ -37,21 +40,15 @@ const store = createStore(
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-const routes = {
-  path: '/',
-  component: App,
-  childRoutes: [
-    {
-      path: '*',
-      component: App
-    }
-  ]
-};
-
 render(
   <Provider store={store}>
     <div>
-      <Router history={history} routes={routes} />
+      <Router history={history}>
+        <Route path="/" component={Index} />
+        <Route path="/admin" component={App}>
+          <Route path="index" component={Main} />
+        </Route>
+      </Router>
     </div>
   </Provider>
   , document.getElementById('react-content')

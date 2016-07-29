@@ -8,7 +8,12 @@ const BASE_URL = '/p1/'; // for dev
 const utils = {
   goto_page: (path = '/', context = 'admin') => {
     if (location.hash.indexOf(`${context}/${path}?`) === -1) {
-      history.pushState(null, `${context}\${path}`);
+      history.push({
+        pathname: `${context}/${path}`,
+        // Extra location-specific state may be kept in session
+        // storage instead of in the URL query string!
+        state: null
+      });
     }
   },
   post: (url, data, context = BASE_URL) => {
