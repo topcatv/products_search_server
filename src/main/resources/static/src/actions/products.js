@@ -20,12 +20,18 @@ function completeSearch(products) {
 }
 
 export function search(queryParams) {
+  const data = {
+    ...queryParams.params,
+    pageNo: queryParams.pagination.current,
+    pageSize: queryParams.pagination.pageSize
+  };
   return (dispatch) => {
     dispatch(requestSearch());
-    return utils.get(API.SEARCH_URL, queryParams)
-    .then((req) => req.json())
+    return utils.get(API.SEARCH_URL, data)
     .then((json) => {
-      dispatch(completeSearch(Object.assign({}, json, {params: queryParams})));
+      utils.checkJson(json);
+      const pagination = Object.assign({}, queryParams.pagination, {total: json.data.totalElements});
+      dispatch(completeSearch(Object.assign({}, json.data, {pagination})));
     });
   };
 }

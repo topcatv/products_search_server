@@ -1,9 +1,10 @@
 import { search } from './products';
-import { login } from './login';
+import { login, logout } from './login';
 
 const actions = {
   search,
-  login
+  login,
+  logout
 };
 
 export default actions;

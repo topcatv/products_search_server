@@ -21,7 +21,7 @@ public class Application extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Application.class);
+        return application.sources(Application.class).sources("classpath*:spring-*.xml");
     }
 
 //    @Bean
@@ -36,7 +36,7 @@ public class Application extends SpringBootServletInitializer {
 //    }
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(new Object[]{Application.class}, args);
+        SpringApplication.run(new Object[]{"classpath*:spring-*.xml", Application.class}, args);
     }
 
 }

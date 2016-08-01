@@ -1,10 +1,17 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import actions from '../actions';
+
 import Main from '../container/Main';
 import '../../static/css/site.css';
-import { Menu, Breadcrumb, Icon } from 'antd';
+import { Menu, Breadcrumb, Icon, Row, Col } from 'antd';
 const SubMenu = Menu.SubMenu;
 
 const App = React.createClass({
+  exit() {
+    this.props.logout();
+  },
   render() {
     return (
       <div>
@@ -18,7 +25,9 @@ const App = React.createClass({
             </Menu>
           </aside>
           <div className="ant-layout-main">
-            <div className="ant-layout-header"></div>
+            <Row className="ant-layout-header" type="flex" justify="end" align="middle">
+                <Col span={4}><a href="javascript:void(0);" onClick={this.exit}><Icon type="user" />退出</a></Col>
+            </Row>
             <div className="ant-layout-breadcrumb">
               <Breadcrumb>
                 <Breadcrumb.Item>首页</Breadcrumb.Item>
@@ -42,4 +51,14 @@ const App = React.createClass({
   }
 });
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    results: state.login
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

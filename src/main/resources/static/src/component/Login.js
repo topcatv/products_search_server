@@ -6,7 +6,6 @@ import {
   Checkbox,
   Row,
   Col,
-  message,
   Spin
 } from 'antd'
 import QueueAnim from 'rc-queue-anim'
@@ -15,47 +14,56 @@ import utils from '../common/utils'
 
 const FormItem = Form.Item;
 
-const Login = React.createClass({
-  mixins: [Form.ValueMixin],
+let Login = React.createClass({
 
   getInitialState() {
-    return {
-      formData: {
-        username: undefined,
-        password: undefined,
-        rememberMe: undefined
-      },
-      loading: false
-    };
+    return {loading: false};
   },
 
-  componentWillMount() {
-    if (this.props.results.shiroLoginFailure) {
-      message.error(this.props.results.message, 5);
-    } else {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.results.isLogin) {
       utils.goto_page('index');
+      return;
     }
   },
 
-  login() {
-    this.props.login(this.state.formData);
+  login(params) {
+    this.props.login(params);
   },
 
   handleSubmit(e) {
     e.preventDefault();
-    this.login();
+    this.props.form.validateFields((errors, values) => {
+      if (!!errors) {
+        return;
+      }
+      this.login(values);
+    });
   },
 
   render() {
-    const formData = this.state.formData;
+    const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
+    const usernameProps = getFieldProps('username', {
+      rules: [
+        {required: true, whitespace: true, message: '用户名必填'}
+      ]
+    });
+    const passwordProps = getFieldProps('password', {
+      rules: [
+        {required: true, min: 6, message: '至少为 6 个字符'}
+      ]
+    });
+    const formItemLayout = {
+      labelCol: { span: 3 },
+      wrapperCol: { span: 20 }
+    };
     return (
       <div>
-        <Spin spinning={this.state.loading}>
           <QueueAnim type={['top', 'bottom']} delay={300}>
             {[
               <div className = "header" key = "0" ><div>
-                <h1>Web ide</h1>
-                <p>Integrated Development Environment<br />代码编辑，代码生成，界面设计，调试，编译</p>
+                <h1>四维海购</h1>
+                <p>产品管理功能</p>
               </div>
               <hr />
               <br />
@@ -68,29 +76,26 @@ const Login = React.createClass({
               </Row>,
               <Row key="2" type="flex" justify="center">
                 <Col span="10">
-                  <Form horizontal onSubmit={this.handleSubmit}>
-                    <FormItem id="username" label="账户：">
-                      <Input placeholder="请输入账户名" id="username"
-                        name="username"
-                        onChange={this.setValue.bind(this, 'username')}
-                        value={formData.username}
-                      />
-                    </FormItem>
-                    <FormItem id = "password" label = "密码：" >
-                      <Input type="password" placeholder="请输入密码"
-                        id="password" name="password"
-                        onChange={this.setValue.bind(this, 'password')} value={formData.password}
-                      />
-                    </FormItem>
-                    <FormItem>
-                      <label className="ant-checkbox-inline">
-                        <Checkbox name="rememberMe" value={formData.rememberMe}
-                          onChange={this.setValue.bind(this, 'rememberMe')}
-                        /> 记住我
-                      < /label>
-                    </FormItem >
-                    <Button type="primary" htmlType="submit">登录</Button>
-                  </Form>
+                  <Spin spinning={this.state.loading}>
+                    <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                      <FormItem {...formItemLayout} label="账户：" hasFeedback
+                        help={isFieldValidating('username') ? '校验中...' : (getFieldError('username') || []).join(', ')}
+                      >
+                        <Input placeholder="请输入账户名" {...usernameProps} />
+                      </FormItem>
+                      <FormItem {...formItemLayout} label = "密码：" hasFeedback
+                        help={isFieldValidating('password') ? '校验中...' : (getFieldError('password') || []).join(', ')}
+                      >
+                        <Input type="password" placeholder="请输入密码" {...passwordProps} />
+                      </FormItem>
+                      <FormItem wrapperCol={{ offset: 3 }}>
+                          <Checkbox name="rememberMe" {...getFieldProps('rememberMe')} /> 记住我
+                      </FormItem >
+                      <FormItem wrapperCol={{ offset: 3 }}>
+                        <Button type="primary" htmlType="submit">登录</Button>
+                      </FormItem>
+                    </Form>
+                  </Spin>
                 </Col>
               </Row>,
               <Row key = "3" type = "flex" justify = "center" >
@@ -98,10 +103,11 @@ const Login = React.createClass({
               </Row>
             ]}
           </QueueAnim>
-        </Spin>
       </div>
     );
   }
 });
+
+Login = Form.create()(Login);
 
 export default Login;

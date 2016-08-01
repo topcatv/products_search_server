@@ -44,39 +44,36 @@ const columns = [
 
 let Main = React.createClass({
   getInitialState() {
-    return { pagination: {}, loading: false };
+    const pagination = {
+      defaultCurrent: 1,
+      pageSize: 10,
+      showTotal: (total) => `共 ${total} 条记录`,
+      onShowSizeChange: (current, pageSize) => {
+        pagination.current = current;
+        pagination.pageSize = pageSize;
+        this.props.search({params: this.props.form.getFieldsValue(), pagination});
+      },
+      onChange: (current) => {
+        pagination.current = current;
+        this.props.search({params: this.props.form.getFieldsValue(), pagination});
+      }
+    }
+    return { pagination, loading: false };
   },
   componentWillReceiveProps(nextProps) {
-    let currentPage = 1;
-    if (nextProps.products.params) {
-      currentPage = nextProps.products.params.pageNo || 1;
-    }
     this.setState({
-      pagination: {
-        total: nextProps.products.totalElements,
-        current: currentPage,
-        onShowSizeChange: (current, pageSize) => {
-          const params = {
-            pageSize,
-            pageNo: current
-          };
-          this.props.search(Object.assign({}, this.props.form.getFieldsValue(), params));
-        },
-        onChange: (current) => {
-          console.log('Current: ', current);
-          const params = {
-            pageNo: current
-          };
-          this.props.search(Object.assign({}, this.props.form.getFieldsValue(), params));
-        }
-      },
-      loading: nextProps.products.loading
+      pagination: nextProps.pagination,
+      loading: nextProps.loading
     });
   },
   handleSubmit(e) {
     e.preventDefault();
-    this.props.search(this.props.form.getFieldsValue());
-    this.setState(Object.assign({}, this.state, { loading: true }));
+    const queryParams = {
+      params: this.props.form.getFieldsValue(),
+      pagination: this.state.pagination
+    };
+    queryParams.pagination.current = 1;
+    this.props.search(queryParams);
   },
   _rowKey(recode) {
     return recode.id;
@@ -93,7 +90,7 @@ let Main = React.createClass({
             <FormItem label="商品条码：">
               <Input placeholder="请输入商品条码" {...getFieldProps('barCode')} />
             </FormItem>
-            <Button type="primary" htmlType="submit">查询</Button>
+            <Button type="primary" htmlType="submit" icon="search" loading={this.state.loading}>查询</Button>
           </Form>
         </Row>
         <br />
@@ -101,7 +98,7 @@ let Main = React.createClass({
           <Table columns={columns}
             rowKey={this._rowKey}
             dataSource={this.props.products.content}
-            pagination={this.state.pagination}loading={this.state.loading}
+            pagination={this.state.pagination} loading={this.state.loading}
           />
         </Row>
       </QueueAnim>

@@ -13,8 +13,8 @@ import { Router, Route, hashHistory } from 'react-router';
 // redux
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import createLogger from 'redux-logger';
-const loggerMiddleware = createLogger();
+// import createLogger from 'redux-logger';
+// const loggerMiddleware = createLogger();
 
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
@@ -34,7 +34,7 @@ import Index from '../component/Index';
 const enhancer = compose(
   applyMiddleware(
     thunkMiddleware,
-    loggerMiddleware
+    // loggerMiddleware
   ),
   window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument(),
   persistState(

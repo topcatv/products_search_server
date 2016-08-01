@@ -1,10 +1,11 @@
 import {
   REQUEST_LOGIN,
+  REQUEST_LOGOUT,
   REQUEST_LOGIN_COMPLETE
 } from '../actions/login'
 
 const initialState = {
-  results: {},
+  isLogin: false,
   loading: false
 }
 
@@ -15,8 +16,10 @@ export default function login(state = initialState, action) {
         loading: action.isLogining
       });
     case REQUEST_LOGIN_COMPLETE:
+    case REQUEST_LOGOUT:
       return Object.assign({}, state, action.result, {
-        loading: action.isLogining
+        loading: action.isLogining,
+        isLogin: action.isLogin
       });
     default:
       return state;

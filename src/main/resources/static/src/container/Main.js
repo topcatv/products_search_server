@@ -6,7 +6,8 @@ import actions from '../actions';
 function mapStateToProps(state) {
   return {
     products: state.products,
-    loading: state.products.loading
+    loading: state.products.loading,
+    pagination: state.products.pagination
   };
 }
 

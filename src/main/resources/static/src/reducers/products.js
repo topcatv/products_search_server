@@ -4,6 +4,7 @@ import {
 } from '../actions/products'
 
 const initialState = {
+  pagination: {current: 1},
   loading: false
 }
 
