@@ -7,7 +7,8 @@ function mapStateToProps(state) {
   return {
     products: state.products,
     loading: state.products.loading,
-    pagination: state.products.pagination
+    pagination: state.products.pagination,
+    shopCart: state.shopCart
   };
 }
 
