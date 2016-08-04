@@ -4,11 +4,17 @@ import { connect } from 'react-redux';
 import actions from '../actions';
 
 import Main from '../container/Main';
+import utils from '../common/utils';
 import '../../static/css/site.css';
 import { Menu, Breadcrumb, Icon, Row, Col } from 'antd';
 const SubMenu = Menu.SubMenu;
 
 const App = React.createClass({
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.result.isLogin) {
+      utils.goto_page('', '');
+    }
+  },
   exit() {
     this.props.logout();
   },
@@ -53,7 +59,7 @@ const App = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    results: state.login
+    result: state.login
   };
 }
 

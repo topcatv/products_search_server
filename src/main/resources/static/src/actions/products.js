@@ -30,8 +30,11 @@ export function search(queryParams) {
     return utils.get(API.SEARCH_URL, data)
     .then((json) => {
       utils.checkJson(json);
-      const pagination = Object.assign({}, queryParams.pagination, {total: json.data.totalElements});
-      dispatch(completeSearch(Object.assign({}, json.data, {pagination})));
+      const pagination = {...queryParams.pagination, total: json.data.totalElements};
+      dispatch(completeSearch({
+        ...json.data,
+        pagination
+      }));
     });
   };
 }

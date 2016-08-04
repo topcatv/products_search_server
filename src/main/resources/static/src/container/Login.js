@@ -5,8 +5,7 @@ import actions from '../actions';
 
 function mapStateToProps(state) {
   return {
-    results: state.login,
-    loading: state.login.loading
+    result: state.login
   };
 }
 

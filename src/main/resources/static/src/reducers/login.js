@@ -5,22 +5,31 @@ import {
 } from '../actions/login'
 
 const initialState = {
+  result: {},
   isLogin: false,
-  loading: false
+  isProcessing: false
 }
 
 export default function login(state = initialState, action) {
   switch (action.type) {
     case REQUEST_LOGIN:
-      return Object.assign({}, state, {
-        loading: action.isLogining
-      });
+      return {
+        ...state,
+        isProcessing: action.isProcessing
+      };
     case REQUEST_LOGIN_COMPLETE:
-    case REQUEST_LOGOUT:
-      return Object.assign({}, state, action.result, {
-        loading: action.isLogining,
+      return {
+        ...state,
+        result: action.result,
+        isProcessing: action.isProcessing,
         isLogin: action.isLogin
-      });
+      };
+    case REQUEST_LOGOUT:
+      return {
+        ...state,
+        result: action.result,
+        isLogin: action.isLogin
+      };
     default:
       return state;
   }

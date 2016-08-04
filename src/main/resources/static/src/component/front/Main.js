@@ -28,7 +28,8 @@ let Main = React.createClass({
     });
   },
   addToCart(record) {
-    this.props.add(record);
+    //this.props.add(record);
+    console.log(record);
   },
   handleSubmit(e) {
     e.preventDefault();

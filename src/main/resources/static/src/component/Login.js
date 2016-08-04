@@ -16,14 +16,9 @@ const FormItem = Form.Item;
 
 let Login = React.createClass({
 
-  getInitialState() {
-    return {loading: false};
-  },
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.results.isLogin) {
+    if (nextProps.result.isLogin) {
       utils.goto_page('index');
-      return;
     }
   },
 
@@ -76,7 +71,7 @@ let Login = React.createClass({
               </Row>,
               <Row key="2" type="flex" justify="center">
                 <Col span="10">
-                  <Spin spinning={this.state.loading}>
+                  <Spin spinning={this.props.result.isProcessing}>
                     <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
                       <FormItem {...formItemLayout} label="账户：" hasFeedback
                         help={isFieldValidating('username') ? '校验中...' : (getFieldError('username') || []).join(', ')}

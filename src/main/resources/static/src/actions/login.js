@@ -8,14 +8,14 @@ export const REQUEST_LOGIN_COMPLETE = 'REQUEST_LOGIN_COMPLETE';
 function requestLogin() {
   return {
     type: REQUEST_LOGIN,
-    isLogining: true
+    isProcessing: true
   };
 }
 
 function completeLogin(result) {
   return {
     type: REQUEST_LOGIN_COMPLETE,
-    isLogining: false,
+    isProcessing: false,
     isLogin: true,
     result
   };
@@ -24,7 +24,6 @@ function completeLogin(result) {
 function completeLogout(result) {
   return {
     type: REQUEST_LOGOUT,
-    isLogining: false,
     isLogin: false,
     result
   };
@@ -35,8 +34,7 @@ export function logout() {
     return utils.get(API.LOGOUT_URL)
     .then((json) => {
       utils.checkJson(json);
-      utils.goto_page('', '');
-      dispatch(completeLogout(Object.assign({}, json)));
+      dispatch(completeLogout(json));
     });
   };
 }
@@ -47,7 +45,10 @@ export function login(user) {
     return utils.post(API.LOGIN_URL, user)
     .then((json) => {
       utils.checkJson(json);
-      dispatch(completeLogin(Object.assign({}, json, user)));
+      dispatch(completeLogin({
+        ...json,
+        user
+      }));
     });
   };
 }
