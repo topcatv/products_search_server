@@ -19,14 +19,14 @@ module.exports = (webpackConfig) => {
   // });
 
   // Parse all less files as css module.
-  webpackConfig.module.loaders.forEach((loader, index) => {
-    if (typeof loader.test === 'function' && loader.test.toString().indexOf('\\.less$') > -1) {
-      loader.test = /\.dont\.exist\.file/;
-    }
-    if (loader.test.toString() === '/\\.module\\.less$/') {
-      loader.test = /\.less$/;
-    }
-  });
+  // webpackConfig.module.loaders.forEach((loader, index) => {
+  //   if (typeof loader.test === 'function' && loader.test.toString().indexOf('\\.less$') > -1) {
+  //     loader.test = /\.dont\.exist\.file/;
+  //   }
+  //   if (loader.test.toString() === '/\\.module\\.less$/') {
+  //     loader.test = /\.less$/;
+  //   }
+  // });
 
   // Load src/entries/*.js as entry automatically.
   const files = glob.sync('./src/entry/index.js');

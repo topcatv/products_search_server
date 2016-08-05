@@ -1,6 +1,6 @@
 import React from 'react';
 import Login from '../container/Login';
-import '../../static/css/site.css';
+import '../../static/css/app.less';
 
 const Index = React.createClass({
   render() {

@@ -5,8 +5,8 @@ import actions from '../actions';
 
 import Main from '../container/Main';
 import utils from '../common/utils';
-import '../../static/css/site.css';
-import { Menu, Breadcrumb, Icon, Row, Col } from 'antd';
+import '../../static/css/app.less';
+import { Menu, Breadcrumb, Icon, Row, Badge } from 'antd';
 const SubMenu = Menu.SubMenu;
 
 const App = React.createClass({
@@ -14,11 +14,21 @@ const App = React.createClass({
     if (!nextProps.result.isLogin) {
       utils.goto_page('', '');
     }
+    this.shopCartSize = nextProps.shopCart.items.length;
   },
   exit() {
     this.props.logout();
   },
+  menuClick(e) {
+    if (e.key === 'logout') {
+      this.exit();
+    }
+  },
   render() {
+    this.shopCartSize = 0;
+    if (this.props.shopCart) {
+      this.shopCartSize = this.props.shopCart.items.length;
+    }
     return (
       <div>
         <div className="ant-layout-aside">
@@ -31,8 +41,19 @@ const App = React.createClass({
             </Menu>
           </aside>
           <div className="ant-layout-main">
-            <Row className="ant-layout-header" type="flex" justify="end" align="middle">
-                <Col span={4}><a href="javascript:void(0);" onClick={this.exit}><Icon type="user" />退出</a></Col>
+            <Row className="ant-layout-header">
+              <Menu onClick={this.menuClick}
+                mode="horizontal"
+              >
+                <Menu.Item key="logout">
+                  <Icon type="user" />退出
+                </Menu.Item>
+                <Menu.Item key="shop_cart">
+                  <Badge count={this.shopCartSize} style={{marginLeft: '8px'}}>
+                    <Icon type="shopping-cart" />我的货单
+                  </Badge>
+                </Menu.Item>
+              </Menu>
             </Row>
             <div className="ant-layout-breadcrumb">
               <Breadcrumb>
@@ -59,6 +80,7 @@ const App = React.createClass({
 
 function mapStateToProps(state) {
   return {
+    shopCart: state.shopCart,
     result: state.login
   };
 }

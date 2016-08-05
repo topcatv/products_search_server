@@ -7,34 +7,30 @@ export const REQUEST_SEARCH_COMPLETE = 'REQUEST_SEARCH_COMPLETE';
 function requestSearch() {
   return {
     type: REQUEST_SEARCH,
-    isFetching: true
+    isProcessing: true
   };
 }
 
 function completeSearch(products) {
   return {
     type: REQUEST_SEARCH_COMPLETE,
-    isFetching: false,
-    products
+    isProcessing: false,
+    content: products.content,
+    pageInfo: {
+      current: (products.number + 1),
+      pageSize: products.size,
+      total: products.totalElements
+    }
   };
 }
 
 export function search(queryParams) {
-  const data = {
-    ...queryParams.params,
-    pageNo: queryParams.pagination.current,
-    pageSize: queryParams.pagination.pageSize
-  };
   return (dispatch) => {
     dispatch(requestSearch());
-    return utils.get(API.SEARCH_URL, data)
+    return utils.get(API.SEARCH_URL, queryParams)
     .then((json) => {
       utils.checkJson(json);
-      const pagination = {...queryParams.pagination, total: json.data.totalElements};
-      dispatch(completeSearch({
-        ...json.data,
-        pagination
-      }));
+      dispatch(completeSearch(json.data));
     });
   };
 }

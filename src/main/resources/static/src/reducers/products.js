@@ -4,20 +4,29 @@ import {
 } from '../actions/products'
 
 const initialState = {
-  pagination: {current: 1},
+  pageInfo: {
+    current: 1,
+    pageSize: 10,
+    total: 0
+  },
+  content: [],
   loading: false
 }
 
 export default function products(state = initialState, action) {
   switch (action.type) {
     case REQUEST_SEARCH:
-      return Object.assign({}, state, {
-        loading: action.isFetching
-      });
+      return {
+        ...state,
+        loading: action.isProcessing
+      };
     case REQUEST_SEARCH_COMPLETE:
-      return Object.assign({}, state, action.products, {
-        loading: action.isFetching
-      });
+      return {
+        ...state,
+        pageInfo: action.pageInfo,
+        content: action.content,
+        loading: action.isProcessing
+      };
     default:
       return state;
   }

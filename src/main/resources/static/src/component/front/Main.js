@@ -1,47 +1,26 @@
 import React from 'react';
-import { Row, Table, Form, Input, Button, Icon } from 'antd'
+import { Row, Table, Form, Input, Button, Icon, notification } from 'antd'
 import QueueAnim from 'rc-queue-anim'
 const FormItem = Form.Item;
 
 let Main = React.createClass({
-  getInitialState() {
-    const pagination = {
-      defaultCurrent: 1,
-      pageSize: 10,
-      showTotal: (total) => `共 ${total} 条记录`,
-      onShowSizeChange: (current, pageSize) => {
-        pagination.current = current;
-        pagination.pageSize = pageSize;
-        this.props.search({params: this.props.form.getFieldsValue(), pagination});
-      },
-      onChange: (current) => {
-        pagination.current = current;
-        this.props.search({params: this.props.form.getFieldsValue(), pagination});
-      }
-    }
-    return { pagination, loading: false };
-  },
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      pagination: nextProps.pagination,
-      loading: nextProps.loading
-    });
-  },
   addToCart(record) {
-    //this.props.add(record);
-    console.log(record);
+    notification.info({
+      duration: 1.5,
+      message: '加入货单',
+      description: (<div><Icon type="shopping-cart" />商品<strong>【{record.name}】</strong>已加入货单</div>)
+    });
+    this.props.addToCart(record);
   },
   handleSubmit(e) {
     e.preventDefault();
+    const { pageSize } = this.props.products.pageInfo
     const queryParams = {
-      params: this.props.form.getFieldsValue(),
-      pagination: this.state.pagination
+      ...this.props.form.getFieldsValue(),
+      pageNo: 1,
+      pageSize
     };
-    queryParams.pagination.current = 1;
     this.props.search(queryParams);
-  },
-  _rowKey(recode) {
-    return recode.id;
   },
   render() {
     const { getFieldProps } = this.props.form;
@@ -90,6 +69,30 @@ let Main = React.createClass({
         )
       }
     ];
+
+    const { current, pageSize, total } = this.props.products.pageInfo;
+    this.pagination = {
+      current,
+      pageSize,
+      total,
+      showSizeChanger: true,
+      showTotal: (t) => `共 ${t} 条记录`,
+      onShowSizeChange: (c, ps) => {
+        this.props.search({
+          ...this.props.form.getFieldsValue(),
+          pageNo: c,
+          pageSize: ps
+        });
+      },
+      onChange: (c) => {
+        this.props.search({
+          ...this.props.form.getFieldsValue(),
+          pageNo: c,
+          pageSize
+        });
+      }
+    };
+
     return (
       <QueueAnim delay={500} type={['right', 'left']} ease={['easeOutQuart', 'easeInOutQuart']}>
         <Row key="1">
@@ -100,15 +103,15 @@ let Main = React.createClass({
             <FormItem label="商品条码：">
               <Input placeholder="请输入商品条码" {...getFieldProps('barCode')} />
             </FormItem>
-            <Button type="primary" htmlType="submit" icon="search" loading={this.state.loading}>查询</Button>
+            <Button type="primary" htmlType="submit" icon="search" loading={this.props.products.loading}>查询</Button>
           </Form>
         </Row>
         <br />
         <Row key="2">
           <Table columns={columns}
-            rowKey={this._rowKey}
+            rowKey={(record) => record.id}
             dataSource={this.props.products.content}
-            pagination={this.state.pagination} loading={this.state.loading}
+            pagination={this.pagination} loading={this.props.products.loading}
           />
         </Row>
       </QueueAnim>

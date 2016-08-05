@@ -18,12 +18,12 @@ const utils = {
     }
   },
   checkJson: (json) => {
+    if (json.status === 401) {
+      utils.goto_page('', '');
+    }
     if (json.status !== 200) {
       message.error(json.message, 5);
       throw new Error(json.message);
-    }
-    if (json.status === 401) {
-      utils.goto_page('', '');
     }
   },
   checkResponse: (rep) => {
