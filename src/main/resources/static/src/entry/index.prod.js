@@ -8,6 +8,7 @@ import { Router, Route, hashHistory } from 'react-router';
 // redux
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import {persistStore, autoRehydrate} from 'redux-persist';
 // import createLogger from 'redux-logger';
 // const loggerMiddleware = createLogger();
 
@@ -18,8 +19,8 @@ import * as reducers from '../reducers';
 
 // top entry
 import App from '../component/App';
-import Main from '../container/Main';
 import Index from '../component/Index';
+import {Main, ShopCart} from '../container';
 
 const enhancer = compose(
   applyMiddleware(
@@ -32,8 +33,11 @@ const store = createStore(
     ...reducers,
     routing: routerReducer
   }),
-  enhancer
+  enhancer,
+  autoRehydrate()
 );
+
+persistStore(store)
 
 const history = syncHistoryWithStore(hashHistory, store);
 
@@ -44,6 +48,7 @@ render(
         <Route path="/" component={Index} />
         <Route path="/admin" component={App}>
           <Route path="index" component={Main} />
+          <Route path="shopCart" component={ShopCart} />
         </Route>
       </Router>
     </div>

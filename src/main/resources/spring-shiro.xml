@@ -57,6 +57,7 @@
                 # 无需认证便可以访问的的文件放在前面
                 / = anon
                 /login = anon
+                /logout = anon
                 /dist/** = anon
                 /** = authc
             </value>

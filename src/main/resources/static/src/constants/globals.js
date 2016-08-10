@@ -3,6 +3,6 @@ module.exports = {
     SEARCH_URL: 'products',
     LOGIN_URL: 'login',
     LOGOUT_URL: 'logout',
-    ADD_SHOP_URL: 'cart'
+    SHOP_URL: 'cart'
   }
 };

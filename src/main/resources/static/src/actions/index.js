@@ -1,12 +1,13 @@
 import { search } from './products';
 import { login, logout } from './login';
-import { addToCart } from './shopCart';
+import { addToCart, removeItem } from './shopCart';
 
 const actions = {
   search,
   login,
   logout,
-  addToCart
+  addToCart,
+  removeItem
 };
 
 export default actions;

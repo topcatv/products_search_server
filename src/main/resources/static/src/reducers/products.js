@@ -2,18 +2,12 @@ import {
   REQUEST_SEARCH,
   REQUEST_SEARCH_COMPLETE
 } from '../actions/products'
+import {
+  REQUEST_LOGOUT
+} from '../actions/login'
+import initialState from './initialState'
 
-const initialState = {
-  pageInfo: {
-    current: 1,
-    pageSize: 10,
-    total: 0
-  },
-  content: [],
-  loading: false
-}
-
-export default function products(state = initialState, action) {
+export default function products(state = initialState.products, action) {
   switch (action.type) {
     case REQUEST_SEARCH:
       return {
@@ -26,6 +20,10 @@ export default function products(state = initialState, action) {
         pageInfo: action.pageInfo,
         content: action.content,
         loading: action.isProcessing
+      };
+    case REQUEST_LOGOUT:
+      return {
+        ...initialState.products
       };
     default:
       return state;

@@ -3,6 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import actions from '../actions';
 
+import history from '../common/history'
+
 import Main from '../container/Main';
 import utils from '../common/utils';
 import '../../static/css/app.less';
@@ -11,9 +13,6 @@ const SubMenu = Menu.SubMenu;
 
 const App = React.createClass({
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.result.isLogin) {
-      utils.goto_page('', '');
-    }
     this.shopCartSize = nextProps.shopCart.items.length;
   },
   exit() {
@@ -23,8 +22,17 @@ const App = React.createClass({
     if (e.key === 'logout') {
       this.exit();
     }
+    if (e.key === 'shop_cart') {
+      utils.goto_page('shopCart');
+    }
   },
   render() {
+    if (!utils.isLogin(this.props)) {
+      history.replace({
+        pathname: '/'
+      });
+      return false;
+    }
     this.shopCartSize = 0;
     if (this.props.shopCart) {
       this.shopCartSize = this.props.shopCart.items.length;

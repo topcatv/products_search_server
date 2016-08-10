@@ -2,6 +2,7 @@ import history from './history';
 import fetch from 'isomorphic-fetch';
 import qs from 'qs';
 import { message } from 'antd';
+import { REQUEST_LOGOUT } from '../actions/login';
 
 // const BASE_URL = ''; // for prod
 const BASE_URL = '/api/'; // for dev
@@ -17,9 +18,11 @@ const utils = {
       });
     }
   },
-  checkJson: (json) => {
+  checkJson: (json, dispatch) => {
     if (json.status === 401) {
-      utils.goto_page('', '');
+      if (dispatch) {
+        dispatch({type: REQUEST_LOGOUT, isLogin: false});
+      }
     }
     if (json.status !== 200) {
       message.error(json.message, 5);
@@ -52,6 +55,19 @@ const utils = {
     .catch(utils.handleException);
     return result;
   },
+  delete: (url, data, context = BASE_URL) => {
+    const result = fetch(`${context}${url}?${qs.stringify(data)}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json'
+      },
+      credentials: 'include'
+    })
+    .then(utils.checkResponse)
+    .then((rep) => rep.json())
+    .catch(utils.handleException);
+    return result;
+  },
   get: (url, data, context = BASE_URL) => {
     const result = fetch(`${context}${url}?${qs.stringify(data)}`, {
       method: 'GET',
@@ -64,6 +80,9 @@ const utils = {
     .then((rep) => rep.json())
     .catch(utils.handleException);
     return result;
+  },
+  isLogin: (props) => {
+    return props.result.isLogin;
   }
 };
 

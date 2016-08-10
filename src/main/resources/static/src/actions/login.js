@@ -46,8 +46,7 @@ export function login(user) {
     .then((json) => {
       utils.checkJson(json);
       dispatch(completeLogin({
-        ...json,
-        user
+        ...json
       }));
     });
   };

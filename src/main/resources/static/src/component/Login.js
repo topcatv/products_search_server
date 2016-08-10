@@ -16,12 +16,6 @@ const FormItem = Form.Item;
 
 let Login = React.createClass({
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.result.isLogin) {
-      utils.goto_page('index');
-    }
-  },
-
   login(params) {
     this.props.login(params);
   },
@@ -37,6 +31,10 @@ let Login = React.createClass({
   },
 
   render() {
+    if (utils.isLogin(this.props)) {
+      utils.goto_page('index');
+      return false;
+    }
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
     const usernameProps = getFieldProps('username', {
       rules: [

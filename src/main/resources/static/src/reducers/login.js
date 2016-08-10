@@ -3,14 +3,9 @@ import {
   REQUEST_LOGOUT,
   REQUEST_LOGIN_COMPLETE
 } from '../actions/login'
+import initialState from './initialState'
 
-const initialState = {
-  result: {},
-  isLogin: false,
-  isProcessing: false
-}
-
-export default function login(state = initialState, action) {
+export default function login(state = initialState.login, action) {
   switch (action.type) {
     case REQUEST_LOGIN:
       return {
@@ -26,9 +21,7 @@ export default function login(state = initialState, action) {
       };
     case REQUEST_LOGOUT:
       return {
-        ...state,
-        result: action.result,
-        isLogin: action.isLogin
+        ...initialState.login
       };
     default:
       return state;

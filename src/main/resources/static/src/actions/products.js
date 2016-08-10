@@ -29,7 +29,8 @@ export function search(queryParams) {
     dispatch(requestSearch());
     return utils.get(API.SEARCH_URL, queryParams)
     .then((json) => {
-      utils.checkJson(json);
+      utils.checkJson(json, dispatch);
+      console.log('kdkdkdkdkdkdkdkd');
       dispatch(completeSearch(json.data));
     });
   };
