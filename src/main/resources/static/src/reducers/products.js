@@ -1,5 +1,4 @@
 import {
-  REQUEST_SEARCH,
   REQUEST_SEARCH_COMPLETE
 } from '../actions/products'
 import {
@@ -9,7 +8,7 @@ import initialState from './initialState'
 
 export default function products(state = initialState.products, action) {
   switch (action.type) {
-    case REQUEST_SEARCH:
+    case 'REQUEST':
       return {
         ...state,
         loading: action.isProcessing

@@ -40,15 +40,19 @@ const utils = {
   handleException: (ex) => {
     console.log('parsing failed', ex);
   },
-  post: (url, data, context = BASE_URL) => {
+  post: (url, data, jsonBody = false, context = BASE_URL) => {
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
+    if (jsonBody) {
+      headers['Content-Type'] = 'application/json';
+    }
     const result = fetch(context + url, {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
+      headers,
       credentials: 'include',
-      body: qs.stringify(data)
+      body: jsonBody ? JSON.stringify(data) : qs.stringify(data)
     })
     .then(utils.checkResponse)
     .then((rep) => rep.json())

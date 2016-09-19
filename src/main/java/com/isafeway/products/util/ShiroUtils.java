@@ -1,6 +1,6 @@
-package com.isafeway.products;
+package com.isafeway.products.util;
 
-import com.isafeway.products.service.User;
+import com.isafeway.products.domain.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 

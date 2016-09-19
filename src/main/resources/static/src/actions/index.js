@@ -1,13 +1,11 @@
-import { search } from './products';
-import { login, logout } from './login';
-import { addToCart, removeItem } from './shopCart';
+import * as products from './products';
+import * as login from './login';
+import * as shopCart from './shopCart';
 
 const actions = {
-  search,
-  login,
-  logout,
-  addToCart,
-  removeItem
+  ...products,
+  ...login,
+  ...shopCart
 };
 
 export default actions;

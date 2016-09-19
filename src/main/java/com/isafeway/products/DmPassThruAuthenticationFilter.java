@@ -1,5 +1,6 @@
 package com.isafeway.products;
 
+import com.isafeway.products.util.ShiroUtils;
 import org.apache.shiro.web.filter.authc.AuthenticationFilter;
 
 import javax.servlet.ServletRequest;

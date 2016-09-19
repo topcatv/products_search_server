@@ -1,5 +1,6 @@
 package com.isafeway.products.service;
 
+import com.isafeway.products.domain.User;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

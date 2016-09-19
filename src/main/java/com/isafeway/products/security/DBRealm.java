@@ -1,7 +1,7 @@
 package com.isafeway.products.security;
 
 import com.google.common.base.Objects;
-import com.isafeway.products.service.User;
+import com.isafeway.products.domain.User;
 import com.isafeway.products.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;

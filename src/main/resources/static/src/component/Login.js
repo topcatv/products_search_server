@@ -32,6 +32,7 @@ let Login = React.createClass({
 
   render() {
     if (utils.isLogin(this.props)) {
+      this.props.loadCart();
       utils.goto_page('index');
       return false;
     }

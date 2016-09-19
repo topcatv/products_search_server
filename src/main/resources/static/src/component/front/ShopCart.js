@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Table, Button, InputNumber, Popconfirm } from 'antd'
+import { Row, Table, Button, InputNumber, Popconfirm, Modal } from 'antd'
 import QueueAnim from 'rc-queue-anim'
 
 const ShopCart = React.createClass({
@@ -8,6 +8,16 @@ const ShopCart = React.createClass({
   },
   removeFromCart(id) {
     this.props.removeItem(id);
+  },
+  submit() {
+    if (this.props.shopCart.items.length <= 0) {
+      Modal.warning({
+        title: '警告',
+        content: '当前货单中没有添加任何货物'
+      });
+      return;
+    }
+    this.props.submitOrder(this.props.shopCart.items);
   },
   render() {
     const columns = [

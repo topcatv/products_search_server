@@ -3,8 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import actions from '../actions';
 
-import history from '../common/history'
-
 import Main from '../container/Main';
 import utils from '../common/utils';
 import '../../static/css/app.less';
@@ -28,9 +26,10 @@ const App = React.createClass({
   },
   render() {
     if (!utils.isLogin(this.props)) {
-      history.replace({
-        pathname: '/'
-      });
+      // history.replace({
+      //   pathname: '/'
+      // });
+      utils.goto_page('', '');
       return false;
     }
     this.shopCartSize = 0;
@@ -42,9 +41,15 @@ const App = React.createClass({
         <div className="ant-layout-aside">
           <aside className="ant-layout-sider">
             <div className="ant-layout-logo"></div>
-            <Menu mode="inline" theme="dark" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
+            <Menu
+              mode="inline"
+              theme="dark"
+              defaultSelectedKeys={['index']}
+              defaultOpenKeys={['sub1']}
+              onClick={(e) => utils.goto_page(e.key)}
+            >
               <SubMenu key="sub1" title={< span > <Icon type="user" />功能 </span>}>
-                <Menu.Item key="1">产品查询</Menu.Item>
+                <Menu.Item key="index">产品查询</Menu.Item>
               </SubMenu>
             </Menu>
           </aside>

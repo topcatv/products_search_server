@@ -1,4 +1,4 @@
-package com.isafeway.products.service;
+package com.isafeway.products.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

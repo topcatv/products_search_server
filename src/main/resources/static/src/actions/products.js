@@ -30,7 +30,6 @@ export function search(queryParams) {
     return utils.get(API.SEARCH_URL, queryParams)
     .then((json) => {
       utils.checkJson(json, dispatch);
-      console.log('kdkdkdkdkdkdkdkd');
       dispatch(completeSearch(json.data));
     });
   };
