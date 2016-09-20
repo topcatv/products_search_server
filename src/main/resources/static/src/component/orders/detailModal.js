@@ -8,7 +8,10 @@ const OrderDetailModal = React.createClass({
       {
         key: 'name',
         title: '商品名',
-        dataIndex: 'name'
+        dataIndex: 'name',
+        render(text) {
+          return <a href="javascript:void(0);">{text}</a>;
+        }
       }, {
         key: 'barCode',
         title: '条码',

@@ -20,7 +20,10 @@ const Orders = React.createClass({
       {
         key: 'id',
         title: '定单编号',
-        dataIndex: 'id'
+        dataIndex: 'id',
+        render(text) {
+          return <a href="javascript:void(0);">{text}</a>;
+        }
       }, {
         key: 'createDate',
         title: '创建时间',
