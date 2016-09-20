@@ -14,6 +14,7 @@ function requestSearch() {
 function completeSearch(products) {
   return {
     type: REQUEST_SEARCH_COMPLETE,
+    currentBreadcrumb: {key: 'products', text: '产品列表'},
     isProcessing: false,
     content: products.content,
     pageInfo: {

@@ -121,7 +121,7 @@ export function loadCart() {
 export function submitOrder(items) {
   return (dispatch) => {
     dispatch(requesSubmitOrder());
-    return utils.post(API.ORDER, items, true)
+    return utils.post(API.ORDER_URL, items, true)
     .then((json) => {
       utils.checkJson(json, dispatch);
       dispatch(completeSubmitOrder(json));

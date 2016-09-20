@@ -5,18 +5,19 @@ import {
   REQUEST_REMOVE_COMPLETE,
   REQUEST_CART_LOAD_COMPLETE,
   REQUEST_SUBMIT_ORDER,
-  REQUEST_SUBMIT_ORDER_COMPLETE
+  REQUEST_SUBMIT_ORDER_COMPLETE,
+  REQUEST_COUNT_CHANGE_COMPLETE
 } from '../actions/shopCart'
 import {
   REQUEST_LOGOUT
 } from '../actions/login'
 import initialState from './initialState'
 
-function itemMap(item, itemId) {
+function itemMap(item, itemId, totalCount) {
   if (itemId === item.id) {
     return {
       ...item,
-      count: (((!item.count) ? 0 : item.count) + 1)
+      count: totalCount || (((!item.count) ? 0 : item.count) + 1)
     }
   }
   return item;
@@ -39,8 +40,17 @@ function removeItem(items, itemId) {
   return items.filter((item) => item.id !== itemId);
 }
 
+function itemCountChange(items, itemId, count) {
+  return items.map((it) => itemMap(it, itemId, count));
+}
+
 export default function shopCart(state = initialState.shopCart, action) {
   switch (action.type) {
+    case REQUEST_COUNT_CHANGE_COMPLETE:
+      return {
+        ...state,
+        items: itemCountChange(state.items, action.itemId, action.count)
+      }
     case REQUEST_ADD:
     case REQUEST_REMOVE:
     case REQUEST_SUBMIT_ORDER:

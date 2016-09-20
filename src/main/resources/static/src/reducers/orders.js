@@ -1,28 +1,18 @@
-import {
-  REQUEST_SEARCH_COMPLETE
-} from '../actions/products'
-import {
-  REQUEST_LOGOUT
-} from '../actions/login'
 import initialState from './initialState'
 
-export default function products(state = initialState.products, action) {
+export default function products(state = initialState.orders, action) {
   switch (action.type) {
-    case 'REQUEST':
+    case 'REQUEST_ORDERS':
       return {
         ...state,
         loading: action.isProcessing
       };
-    case REQUEST_SEARCH_COMPLETE:
+    case 'REQUEST_ORDERS_COMPLETE':
       return {
         ...state,
         pageInfo: action.pageInfo,
         items: action.content,
         loading: action.isProcessing
-      };
-    case REQUEST_LOGOUT:
-      return {
-        ...initialState.products
       };
     default:
       return state;

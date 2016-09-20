@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Table, Button, InputNumber, Popconfirm, Modal } from 'antd'
+import { Row, Table, Button, Icon, InputNumber, Popconfirm, Modal } from 'antd'
 import QueueAnim from 'rc-queue-anim'
 
 const ShopCart = React.createClass({
@@ -10,17 +10,17 @@ const ShopCart = React.createClass({
     this.props.removeItem(id);
   },
   submit() {
-    if (this.props.shopCart.items.length <= 0) {
+    if (this.props.items.length <= 0) {
       Modal.warning({
         title: '警告',
         content: '当前货单中没有添加任何货物'
       });
       return;
     }
-    this.props.submitOrder(this.props.shopCart.items);
+    this.props.submitOrder(this.props.items);
   },
-  render() {
-    const columns = [
+  _columns() {
+    return [
       {
         key: 'name',
         title: '商品名',
@@ -66,21 +66,22 @@ const ShopCart = React.createClass({
         dataIndex: 'id',
         render: (id) => (
           <Popconfirm placement="bottom" title="确定要删除这个商品吗？" onConfirm={() => this.removeFromCart(id)}>
-            <Button size="small" style={{color: '#fff', background: '#f50'}}>-</Button>
+            <Icon type="cross-circle" style={{color: '#f50', cursor: 'pointer'}} />
           </Popconfirm>
         )
       }
     ];
-
+  },
+  render() {
     return (
       <QueueAnim delay={500} type={['right', 'left']} ease={['easeOutQuart', 'easeInOutQuart']}>
         <Row key="1">
           <Button type="primary" icon="check" onClick={this.submit} style={{marginBottom: '8px'}} >提交订单</Button>
         </Row>
         <Row key="2">
-          <Table columns={columns}
+          <Table columns={this._columns()}
             rowKey={(record) => record.id}
-            dataSource={this.props.shopCart.items} loading={this.props.shopCart.loading}
+            dataSource={this.props.items} loading={this.props.loading}
             pagination={false}
           />
         </Row>

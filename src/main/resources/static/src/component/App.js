@@ -11,7 +11,7 @@ const SubMenu = Menu.SubMenu;
 
 const App = React.createClass({
   componentWillReceiveProps(nextProps) {
-    this.shopCartSize = nextProps.shopCart.items.length;
+    this.shopCartSize = nextProps.shopCartSize;
   },
   exit() {
     this.props.logout();
@@ -32,10 +32,7 @@ const App = React.createClass({
       utils.goto_page('', '');
       return false;
     }
-    this.shopCartSize = 0;
-    if (this.props.shopCart) {
-      this.shopCartSize = this.props.shopCart.items.length;
-    }
+    this.shopCartSize = this.props.shopCartSize || 0;
     return (
       <div>
         <div className="ant-layout-aside">
@@ -50,6 +47,7 @@ const App = React.createClass({
             >
               <SubMenu key="sub1" title={< span > <Icon type="user" />功能 </span>}>
                 <Menu.Item key="index">产品查询</Menu.Item>
+                <Menu.Item key="orders">我的订单</Menu.Item>
               </SubMenu>
             </Menu>
           </aside>
@@ -70,8 +68,11 @@ const App = React.createClass({
             </Row>
             <div className="ant-layout-breadcrumb">
               <Breadcrumb>
-                <Breadcrumb.Item>首页</Breadcrumb.Item>
-                <Breadcrumb.Item>产品查询</Breadcrumb.Item>
+                {
+                  this.props.breadcrumb.map((bc) => (
+                    <Breadcrumb.Item key={bc.key}>{bc.text}</Breadcrumb.Item>
+                  ))
+                }
               </Breadcrumb>
             </div>
             <div className="ant-layout-container">
@@ -93,7 +94,8 @@ const App = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    shopCart: state.shopCart,
+    breadcrumb: state.breadcrumb,
+    shopCartSize: state.shopCart.items.length,
     result: state.login
   };
 }

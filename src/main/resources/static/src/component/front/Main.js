@@ -14,7 +14,7 @@ let Main = React.createClass({
   },
   handleSubmit(e) {
     e.preventDefault();
-    const { pageSize } = this.props.products.pageInfo
+    const { pageSize } = this.props.pageInfo
     const queryParams = {
       ...this.props.form.getFieldsValue(),
       pageNo: 1,
@@ -70,7 +70,7 @@ let Main = React.createClass({
       }
     ];
 
-    const { current, pageSize, total } = this.props.products.pageInfo;
+    const { current, pageSize, total } = this.props.pageInfo;
     this.pagination = {
       current,
       pageSize,
@@ -103,15 +103,15 @@ let Main = React.createClass({
             <FormItem label="商品条码：">
               <Input placeholder="请输入商品条码" {...getFieldProps('barCode')} />
             </FormItem>
-            <Button type="primary" htmlType="submit" icon="search" loading={this.props.products.loading}>查询</Button>
+            <Button type="primary" htmlType="submit" icon="search" loading={this.props.loading}>查询</Button>
           </Form>
         </Row>
         <br />
         <Row key="2">
           <Table columns={columns}
             rowKey={(record) => record.id}
-            dataSource={this.props.products.content}
-            pagination={this.pagination} loading={this.props.products.loading}
+            dataSource={this.props.items}
+            pagination={this.pagination} loading={this.props.loading}
           />
         </Row>
       </QueueAnim>

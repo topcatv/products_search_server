@@ -5,6 +5,7 @@ module.exports = {
     LOGOUT_URL: 'logout',
     SHOP_URL: 'cart',
     SHOP_CART_LOAD_URL: 'cart/load',
-    ORDER: 'order'
+    ORDER_URL: 'order',
+    ORDERS_URL: 'orders'
   }
 };
