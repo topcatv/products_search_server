@@ -4,8 +4,8 @@ import qs from 'qs';
 import { message } from 'antd';
 import { REQUEST_LOGOUT } from '../actions/login';
 
-// const BASE_URL = ''; // for prod
-const BASE_URL = '/api/'; // for dev
+const BASE_URL = ''; // for prod
+// const BASE_URL = '/api/'; // for dev
 
 const utils = {
   goto_page: (path = '', context = 'admin') => {
